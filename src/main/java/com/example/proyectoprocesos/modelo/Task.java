@@ -1,5 +1,4 @@
 package com.example.proyectoprocesos.modelo;
 
-public class Proceso {
-
+public class Task {
 }

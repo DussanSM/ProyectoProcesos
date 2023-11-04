@@ -6,12 +6,14 @@ public class DoubleList<T> implements Iterable<T> {
 
     private DoubleNode<T> firstNode;
     private DoubleNode<T> lastNode;
+    private DoubleNode<T> lastNodeRegister;
     private int size;
 
 
     public DoubleList() {
         firstNode = null;
         lastNode = null;
+        lastNodeRegister = null;
         size = 0;
     }
 
@@ -24,7 +26,7 @@ public class DoubleList<T> implements Iterable<T> {
         }
         else{
             newNode.setNextNode(firstNode);
-            firstNode = newNode;
+            firstNode = lastNodeRegister = newNode;
         }
         size++;
     }
@@ -34,22 +36,39 @@ public class DoubleList<T> implements Iterable<T> {
         DoubleNode<T> newNode = new DoubleNode<>(value);
 
         if(isEmpty()){
-            firstNode = lastNode = newNode;
+            firstNode = lastNode = lastNodeRegister = newNode;
         }
         else{
             newNode.setPreviousNode(lastNode);
             lastNode.setNextNode(newNode);
-            lastNode = newNode;
+            lastNode = lastNodeRegister = newNode;
         }
+        size++;
+    }
+
+    public void addNode(T value, DoubleNode<T> node){
+        if(node == null){
+            return;
+        }
+
+        DoubleNode<T> newNode = new DoubleNode<>(value);
+        DoubleNode<T> nextNode = node.getNextNode();
+
+        node.setNextNode(newNode);
+        newNode.setPreviousNode(node);
+        newNode.setNextNode(nextNode);
+        nextNode.setPreviousNode(newNode);
+
         size++;
     }
 
     public void add(T value, int index) {
 
         if(isValidIndex(index)) {
-
             if(index==0) {
                 addStart(value);
+            } else if (index==size){
+                addEnd(value);
             }
             else {
                 DoubleNode<T> newNode = new DoubleNode<>(value);
@@ -60,13 +79,15 @@ public class DoubleList<T> implements Iterable<T> {
                 currentNode.getPreviousNode().setNextNode(newNode);
                 currentNode.setPreviousNode(newNode);
 
+                lastNodeRegister = newNode;
+
                 size++;
             }
         }
     }
 
     public void deleteList() {
-        firstNode = lastNode = null;
+        firstNode = lastNode = lastNodeRegister = null;
         size = 0;
     }
 
@@ -159,6 +180,7 @@ public class DoubleList<T> implements Iterable<T> {
         if( !isEmpty() ) {
             DoubleNode<T> auxNode = firstNode;
             firstNode = auxNode.getNextNode();
+            lastNodeRegister = lastNodeRegister == auxNode ? firstNode : lastNodeRegister;
 
             if(firstNode == null) {
                 lastNode = null;
@@ -179,6 +201,7 @@ public class DoubleList<T> implements Iterable<T> {
 
         if( !isEmpty() ) {
             DoubleNode<T> prev = getNode(size-2);
+            lastNodeRegister = lastNodeRegister == getNode(size-1) ? prev : lastNodeRegister;
             lastNode = prev;
 
             if(lastNode==null) {
@@ -267,7 +290,7 @@ public class DoubleList<T> implements Iterable<T> {
         return new IteratorDoubleList (firstNode);
     }
 
-    protected class IteratorDoubleList implements Iterator<T>{
+    public class IteratorDoubleList implements Iterator<T>{
 
         private DoubleNode<T> Node;
         private int position;
@@ -355,4 +378,11 @@ public class DoubleList<T> implements Iterable<T> {
         this.lastNode = lastNode;
     }
 
+    public DoubleNode<T> getLastNodeRegister() {
+        return lastNodeRegister;
+    }
+
+    public void setLastNodeRegister(DoubleNode<T> lastNodeRegister) {
+        this.lastNodeRegister = lastNodeRegister;
+    }
 }
