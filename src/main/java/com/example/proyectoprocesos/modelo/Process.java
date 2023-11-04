@@ -6,8 +6,12 @@ import java.util.Iterator;
 
 public class Process {
     DoubleList<Activity> activities;
+    String id;
+    String name;
 
-    public Process() {
+    public Process(String id, String name) {
+        this.id = id;
+        this.name = name;
         activities = null;
     }
 

@@ -1,5 +1,6 @@
 package com.example.proyectoprocesos;
 
+import com.example.proyectoprocesos.modelo.Task;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
