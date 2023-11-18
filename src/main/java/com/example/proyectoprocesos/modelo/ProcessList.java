@@ -31,6 +31,12 @@ public class ProcessList implements Iterable<Process>{
         return processList;
     }
 
+    public void update(Process process, Process newProcess){
+        int index = processList.indexOf(process);
+        processList.remove(process);
+        processList.add(index, newProcess);
+    }
+
     @Override
     public Iterator<Process> iterator() {
         return processList.iterator();
