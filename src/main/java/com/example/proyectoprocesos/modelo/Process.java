@@ -5,9 +5,9 @@ import com.example.proyectoprocesos.modelo.estructuraDatos.DoubleList;
 import java.util.Iterator;
 
 public class Process {
-    DoubleList<Activity> activities;
-    String id;
-    String name;
+    private DoubleList<Activity> activities;
+    private String id;
+    private String name;
 
     public Process(String id, String name) {
         this.id = id;
@@ -60,5 +60,21 @@ public class Process {
             }
         }
         return true;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

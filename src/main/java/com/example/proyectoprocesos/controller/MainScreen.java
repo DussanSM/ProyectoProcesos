@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.IOException;
 
 public class MainScreen {
@@ -43,7 +42,15 @@ public class MainScreen {
 
     @FXML
     void goProcess(ActionEvent event) throws IOException{
-
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/proyectoprocesos/proceso.fxml"));
+        Parent root = loader.load();
+        ProcessInterface controller = loader.getController();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+        controller.setStage(stage);
+        this.stage.close();
     }
 
     @FXML
