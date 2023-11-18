@@ -3,6 +3,10 @@ package com.example.proyectoprocesos.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javax.swing.JOptionPane;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -13,8 +17,6 @@ import java.io.IOException;
 
 public class Login {
     private Stage stage;
-    @FXML
-    private Label welcomeText;
 
     @FXML
     private Button login;
@@ -24,11 +26,6 @@ public class Login {
 
     @FXML
     private PasswordField password;
-
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
 
     @FXML
     void login(ActionEvent event) throws IOException {
@@ -44,15 +41,15 @@ public class Login {
             return;
         }
 
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/uniquindio/biblioteca/login-bibliotecario.fxml"));
-//        Parent root = loader.load();
-//        InicioBibliotecario controller = loader.getController();
-//        Scene scene = new Scene(root);
-//        Stage stage = new Stage();
-//        stage.setScene(scene);
-//        stage.show();
-//        controller.setStage(stage);
-//        this.stage.close();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/proyectoprocesos/menu.fxml"));
+        Parent root = loader.load();
+        MainScreen controller = loader.getController();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+        controller.setStage(stage);
+        this.stage.close();
     }
 
     public void setStage(Stage stage) {

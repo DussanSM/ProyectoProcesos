@@ -8,21 +8,21 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #757575;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectoprocesos.controller.Login">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="600.0" style="-fx-background-color: #757575;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectoprocesos.controller.Login">
    <children>
-      <AnchorPane layoutX="200.0" layoutY="85.0" prefHeight="330.0" prefWidth="300.0" style="-fx-background-color: #f5f5f5;">
+      <AnchorPane layoutX="150.0" prefHeight="340.0" prefWidth="310.0" style="-fx-background-color: #f5f5f5;">
          <children>
-            <Label layoutX="67.0" layoutY="33.0" prefHeight="35.0" prefWidth="166.0" text="Inicio de Sesión">
+            <Label layoutX="64.0" layoutY="36.0" prefHeight="35.0" prefWidth="194.0" text="Inicio de Sesión" textAlignment="CENTER">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <AnchorPane layoutX="60.0" layoutY="66.0" prefHeight="3.0" prefWidth="179.0" style="-fx-background-color: #212121;" />
+            <AnchorPane layoutX="71.0" layoutY="68.0" prefHeight="3.0" prefWidth="179.0" style="-fx-background-color: #212121;" />
             <TextField fx:id="name" layoutX="75.0" layoutY="131.0" />
             <PasswordField fx:id="password" layoutX="75.0" layoutY="193.0" />
             <Text layoutX="75.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de Usuario" />
             <Text layoutX="75.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña" />
-            <Button fx:id="login" layoutX="89.0" layoutY="239.0" mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="121.0" text="Iniciar Sesión" />
+            <Button fx:id="login" layoutX="100.0" layoutY="237.0" mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="121.0" text="Iniciar Sesión" />
          </children>
       </AnchorPane>
    </children>
