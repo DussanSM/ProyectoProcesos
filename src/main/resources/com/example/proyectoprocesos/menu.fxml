@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="322.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="322.0" prefWidth="214.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="80.0" prefWidth="250.0" text="Procesos" />
+            <Button mnemonicParsing="false" prefHeight="80.0" prefWidth="250.0" text="Actividades" />
+            <Button mnemonicParsing="false" prefHeight="80.0" prefWidth="250.0" text="Tareas" />
+            <Button mnemonicParsing="false" prefHeight="80.0" prefWidth="250.0" text="Buscar" />
+         </children>
+      </VBox>
+      <Text layoutX="403.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="USER" />
+      <Button layoutX="355.0" layoutY="204.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="123.0" text="Cerrar Sesión" />
+   </children>
+</AnchorPane>
