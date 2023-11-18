@@ -1,5 +1,6 @@
 package com.example.proyectoprocesos;
 
+import com.example.proyectoprocesos.controller.Login;
 import com.example.proyectoprocesos.modelo.Task;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,8 @@ public class HelloApplication extends Application {
         primaryStage.setResizable(false);
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
+        Login controller = fxmlLoader.getController();
+        controller.setStage(primaryStage);
         primaryStage.show();
     }
 
