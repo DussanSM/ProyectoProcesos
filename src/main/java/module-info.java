@@ -1,4 +1,4 @@
-module com.example.proyectoprocesos {
+    module com.example.proyectoprocesos {
     requires javafx.controls;
     requires javafx.fxml;
 
