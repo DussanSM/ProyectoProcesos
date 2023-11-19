@@ -28,11 +28,21 @@ public class Process {
             return;
         }
 
+        if (activities.getLastNodeRegister() == activities.getLastNode()){
+            activities.addEnd(activity);
+            return;
+        }
+
         activities.addNode(activity, activities.getLastNodeRegister());
     }
 
     public void addActivity(Activity activity, String activityName){
         if (!onlyName(activity.getName())){
+            return;
+        }
+
+        if (activities.getSize() == 1){
+            activities.addEnd(activity);
             return;
         }
 
@@ -42,7 +52,8 @@ public class Process {
             int node = it.getPosition();
             Activity ac = (Activity) it.next();
             if(ac.getName().equalsIgnoreCase(activityName)){
-                index = node;
+                index = node+1;
+                break;
             }
         }
 

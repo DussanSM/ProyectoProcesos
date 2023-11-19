@@ -59,6 +59,7 @@ public class DoubleList<T> implements Iterable<T> {
         newNode.setNextNode(nextNode);
         nextNode.setPreviousNode(newNode);
 
+        lastNodeRegister  = newNode;
         size++;
     }
 

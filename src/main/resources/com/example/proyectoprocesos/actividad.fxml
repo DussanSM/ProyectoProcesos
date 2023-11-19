@@ -30,10 +30,10 @@
                   <CheckBox fx:id="mandatory" layoutX="259.0" layoutY="152.0" mnemonicParsing="false" text="Obligatoria" />
                   <ComboBox fx:id="processComboBox" layoutX="200.0" layoutY="179.0" onAction="#selectProcess" prefWidth="200.0" />
                   <Text layoutX="111.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prroceso" />
-                  <Button fx:id="add" layoutX="74.0" layoutY="226.0" mnemonicParsing="false" onAction="#addActivity" text="Agregar por nombre" />
+                  <Button fx:id="addName" layoutX="74.0" layoutY="226.0" mnemonicParsing="false" onAction="#addActivityName" text="Agregar por nombre" />
                   <Button layoutX="493.0" layoutY="15.0" mnemonicParsing="false" text="Intercambiar" />
-                  <Button layoutX="250.0" layoutY="226.0" mnemonicParsing="false" text="Agregar al Final" />
-                  <Button layoutX="400.0" layoutY="226.0" mnemonicParsing="false" text="Agregar ultima actividad " />
+                  <Button fx:id="addEnd" layoutX="250.0" layoutY="226.0" mnemonicParsing="false" onAction="#addActivity" text="Agregar al Final" />
+                  <Button fx:id="addRecent" layoutX="400.0" layoutY="226.0" mnemonicParsing="false" onAction="#addActivityRecent" text="Agregar ultima actividad " />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="218.0" prefWidth="603.0">

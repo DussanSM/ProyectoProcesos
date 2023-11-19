@@ -106,8 +106,50 @@ public class ActivityInterface implements Initializable {
             return;
         }
 
+        int size = this.process.getActivities().getSize();
         this.process.addActivityEnd(new Activity(nameActivity.getText(), descriptionActivity.getText(), mandatory.isSelected()));
+
+        if (size == this.process.getActivities().getSize()){
+            JOptionPane.showMessageDialog(null, "El nombre ya existe");
+            return;
+        }
+
         this.uploadTable();
+        clean();
+    }
+
+    @FXML
+    void addActivityName(ActionEvent event) {
+        if (!validation()) {
+            return;
+        }
+
+        int size = this.process.getActivities().getSize();
+        String name = JOptionPane.showInputDialog("Ingrese el nombre de la Actividad: ");
+        this.process.addActivity(new Activity(nameActivity.getText(), descriptionActivity.getText(), mandatory.isSelected()), name);
+
+        if (size == this.process.getActivities().getSize()){
+            JOptionPane.showMessageDialog(null, "El nombre ya existe");
+            return;
+        }
+        this.uploadTable();
+        clean();
+    }
+
+    @FXML
+    void addActivityRecent(ActionEvent event) {
+        if (!validation()) {
+            return;
+        }
+
+        int size = this.process.getActivities().getSize();
+        this.process.addActivityRecent(new Activity(nameActivity.getText(), descriptionActivity.getText(), mandatory.isSelected()));
+        if (size == this.process.getActivities().getSize()){
+            JOptionPane.showMessageDialog(null, "El nombre ya existe");
+            return;
+        }
+        this.uploadTable();
+        clean();
     }
 
     @FXML
