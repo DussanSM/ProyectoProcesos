@@ -64,7 +64,7 @@ public class Activity {
         return description;
     }
 
-    public void setDescription() {
+    public void setDescription(String description) {
         this.description = description;
     }
 

@@ -111,6 +111,7 @@ public class ProcessInterface implements Initializable {
         }
         this.processList.update(p, new Process(idProcess.getText(), nameProcess.getText()));
         this.uploadTable();
+        p = null;
         clean();
     }
 

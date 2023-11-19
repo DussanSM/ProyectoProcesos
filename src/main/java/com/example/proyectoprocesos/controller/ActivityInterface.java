@@ -48,7 +48,7 @@ public class ActivityInterface implements Initializable {
     private ComboBox<Process> processComboBox;
 
     @FXML
-    private TableView<DoubleList<Activity>> tableActivity;
+    private TableView<Activity> tableActivity;
 
     @FXML
     private Button update;
@@ -56,25 +56,27 @@ public class ActivityInterface implements Initializable {
     private Process process;
     private ProcessList processList;
     private Stage stage;
-    private ObservableList<DoubleList<Activity>> itemList;
+    private ObservableList<Activity> itemList;
     private Activity a;
     int positionActivity = 0;
 
     public void uploadTable(){
-
-        if(this.process.getActivities().isEmpty()){
-            return;
+        itemList = FXCollections.observableArrayList();
+        for (Activity a: this.process.getActivities()) {
+            itemList.add(a);
         }
-        itemList = FXCollections.observableArrayList(this.process.getActivities());
         tableActivity.setItems(itemList);
 
-        TableColumn<DoubleList<Activity>, String> nameColumn = new TableColumn<>("Actividad");
+        TableColumn<Activity, String> nameColumn = new TableColumn<>("Actividad");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<DoubleList<Activity>, String> descriptionColumn = new TableColumn<>("Descripción");
+        TableColumn<Activity, String> descriptionColumn = new TableColumn<>("Descripcion");
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-        this.tableActivity.getColumns().setAll(nameColumn, descriptionColumn);
+        TableColumn<Activity, String> mandatoryColumn = new TableColumn<>("Obligatorio");
+        mandatoryColumn.setCellValueFactory(new PropertyValueFactory<>("mandatory"));
+
+        this.tableActivity.getColumns().setAll(nameColumn, descriptionColumn, mandatoryColumn);
     }
 
     @FXML
@@ -91,7 +93,7 @@ public class ActivityInterface implements Initializable {
     }
 
     public boolean validation(){
-        if(nameActivity.getText().isEmpty() && descriptionActivity.getText().isEmpty() && processComboBox.getValue() != null){
+        if(nameActivity.getText().isEmpty() || descriptionActivity.getText().isEmpty() || processComboBox.getValue().getName().isEmpty()){
             JOptionPane.showMessageDialog(null, "Llene todo los campos");
             return false;
         }
@@ -111,27 +113,56 @@ public class ActivityInterface implements Initializable {
     @FXML
     void selectProcess(ActionEvent event){
         process = processComboBox.getValue();
+        this.uploadTable();
     }
 
-    private final ListChangeListener<DoubleList<Activity>> selectorTablaPersonas =
-            new ListChangeListener<DoubleList<Activity>>() {
+    private final ListChangeListener<Activity> selectorTablaPersonas =
+            new ListChangeListener<Activity>() {
         @Override
-        public void onChanged(ListChangeListener.Change<? extends DoubleList<Activity>> c) {
+        public void onChanged(ListChangeListener.Change<? extends Activity> c) {
                     selectActivity();
                 }
     };
 
     public Activity getTablaPersonasSeleccionada() {
         if (tableActivity != null) {
-            ObservableList<DoubleList<Activity>> tabla = tableActivity.getSelectionModel().getSelectedItems();
+            List<Activity> tabla = tableActivity.getSelectionModel().getSelectedItems();
             if (tabla.size() == 1) {
-                final Activity activity = tabla.get(0).getNodeValue(0);
+                final Activity activity = tabla.get(0);
                 return activity;
             }
         }
         return null;
     }
 
+    @FXML
+    void deleteActivity(ActionEvent event) {
+        this.process.getActivities().removeNode(a);
+        this.uploadTable();
+        clean();
+    }
+
+    @FXML
+    void updateProcess(ActionEvent event) {
+        if(!validation()){
+            return;
+        }
+        Activity ac = this.process.getActivities().getNodeValue(positionActivity);
+        ac.setName(nameActivity.getText());
+        ac.setDescription(descriptionActivity.getText());
+        ac.setMandatory(mandatory.isSelected());
+        this.uploadTable();
+        a = null;
+        clean();
+    }
+
+    public void clean(){
+        nameActivity.setText("");
+        descriptionActivity.setText("");
+        mandatory.setSelected(false);
+        update.setDisable(true);
+        delete.setDisable(true);
+    }
     private void selectActivity() {
         a = getTablaPersonasSeleccionada();
 
@@ -154,12 +185,10 @@ public class ActivityInterface implements Initializable {
         this.processList = ProcessList.getInstance();
         ObservableList<Process> comboProcess = FXCollections.observableArrayList(processList.getProcessList());
         processComboBox.setItems(comboProcess);
-        //this.uploadTable();
-        final ObservableList<DoubleList<Activity>> tableActivitySelect = tableActivity.getSelectionModel().getSelectedItems();
+        final ObservableList<Activity> tableActivitySelect = tableActivity.getSelectionModel().getSelectedItems();
         tableActivitySelect.addListener(selectorTablaPersonas);
 
-        update.setDisable(true);
-        delete.setDisable(true);
+        clean();
     }
 
 }

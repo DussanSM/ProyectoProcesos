@@ -12,7 +12,7 @@ public class Process {
     public Process(String id, String name) {
         this.id = id;
         this.name = name;
-        activities = null;
+        activities = new DoubleList<>();
     }
 
     public void addActivityEnd(Activity activity){
@@ -80,5 +80,10 @@ public class Process {
 
     public DoubleList<Activity> getActivities(){
         return this.activities;
+    }
+
+    @Override
+    public String toString(){
+        return this.name + " - " + this.id;
     }
 }
