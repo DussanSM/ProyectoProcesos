@@ -8,6 +8,7 @@ public class Activity {
     private String name;
     private String description;
     private boolean mandatory;
+
     private Queue<Task> tasks;
 
     public Activity(String name, String description, boolean mandatory) {
@@ -57,5 +58,21 @@ public class Activity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription() {
+        this.description = description;
+    }
+
+    public boolean isMandatory() {
+        return mandatory;
+    }
+
+    public void setMandatory(boolean mandatory) {
+        this.mandatory = mandatory;
     }
 }

@@ -77,4 +77,8 @@ public class Process {
     public void setName(String name) {
         this.name = name;
     }
+
+    public DoubleList<Activity> getActivities(){
+        return this.activities;
+    }
 }
