@@ -66,7 +66,7 @@ public class ProcessInterface implements Initializable {
     }
 
     public boolean validation(){
-        if(nameProcess.getText().isEmpty() && idProcess.getText().isEmpty()){
+        if(nameProcess.getText().isEmpty() || idProcess.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Llene todo los campos");
             return false;
         }
