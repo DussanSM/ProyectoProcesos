@@ -16,6 +16,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -37,6 +39,9 @@ public class TaskInterface implements Initializable {
     private Button deleteTask;
 
     @FXML
+    private Button addAnother;
+
+    @FXML
     private TextField descriptionTask;
 
     @FXML
@@ -48,10 +53,11 @@ public class TaskInterface implements Initializable {
     @FXML
     private Button updateTask;
 
-    private String time = "0";
+    private String time = "1.0";
     private Stage stage;
     private ObservableList<Task> itemList;
     private Activity activity;
+    private Task task;
     private ProcessList processList;
     int positionTask = 0;
 
@@ -79,7 +85,7 @@ public class TaskInterface implements Initializable {
 
     public void uploadTable(){
         itemList = FXCollections.observableArrayList();
-        Queue<Task> tasks = (Queue<Task>) this.activity.getTasks().clone();
+        Queue<Task> tasks = this.activity.getTasks().clone();
         for (Task t: tasks) {
             itemList.add(t);
         }
@@ -91,7 +97,9 @@ public class TaskInterface implements Initializable {
         TableColumn<Task, String> mandatoryColumn = new TableColumn<>("Obligatorio");
         mandatoryColumn.setCellValueFactory(new PropertyValueFactory<>("mandatory"));
 
-        this.taskTable.getColumns().setAll(descriptionColumn, mandatoryColumn);
+        TableColumn<Task, Double> timeColumn = new TableColumn<>("Tiempo");
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("Time"));
+        this.taskTable.getColumns().setAll(descriptionColumn, mandatoryColumn, timeColumn);
     }
 
     @FXML
@@ -101,6 +109,57 @@ public class TaskInterface implements Initializable {
         }
 
         this.activity.pushTask(new Task(descriptionTask.getText(), mandatoryTask.isSelected(), Double.parseDouble(time)));
+        this.uploadTable();
+        clean();
+    }
+
+    @FXML
+    public void update(){
+        if(!validation()){
+            return;
+        }
+
+        this.task.setDescription(descriptionTask.getText());
+        this.task.setMandatory(mandatoryTask.isSelected());
+        this.task.setTime(Double.parseDouble(time));
+        this.uploadTable();
+        clean();
+    }
+
+    @FXML
+    public void delete(){
+        if(!validation()){
+            return;
+        }
+
+        Queue<Task> taskQueue = this.activity.getTasks().clone();
+        deleteTaskQueue(taskQueue);
+        this.activity.setTasks(taskQueue);
+        this.uploadTable();
+        clean();
+    }
+
+    public void deleteTaskQueue(Queue<Task> taskQueue){
+        if (taskQueue.isEmpty()){
+            return;
+        }
+
+        Task taskData = taskQueue.pop();
+        if (taskData == task){
+            return;
+        }
+        deleteTaskQueue(taskQueue);
+        taskQueue.push(taskData);
+    }
+    @FXML
+    void addTaskIndex(ActionEvent ignoredEvent) {
+        if (!validation()) {
+            return;
+        }
+
+        String index = JOptionPane.showInputDialog("Ingrese la posicion que desea agregar la tarea: ");
+        this.activity.pushTask(new Task(descriptionTask.getText(), mandatoryTask.isSelected(), Double.parseDouble(time)),
+                Integer.parseInt(index));
         this.uploadTable();
         clean();
     }
@@ -117,8 +176,38 @@ public class TaskInterface implements Initializable {
         time = comboBoxTime.getValue();
     }
 
+    @FXML
+    public void addAnotherActivity(ActionEvent ignoredActionEvent){
+        openPopup();
+    }
+    private void openPopup() {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setTitle("Popup Window");
+
+        ComboBox<Activity> comboBoxPopup = new ComboBox<>();
+        comboBoxPopup.setItems(generateComboBoxActivities());
+
+        Button addButton = new Button("Agregar Tarea");
+        addButton.setOnAction(e ->  {
+            comboBoxPopup.getValue().pushTask(task);
+            popupStage.close();
+        });
+
+        Button closeButton = new Button("Cerar Popup");
+        closeButton.setOnAction(e -> popupStage.close());
+
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(comboBoxPopup, addButton, closeButton);
+        layout.setPadding(new javafx.geometry.Insets(10));
+
+        Scene scene = new Scene(layout, 200, 150);
+        popupStage.setScene(scene);
+        popupStage.showAndWait();
+    }
+
     public void selectTask() {
-        Task task = getTablaPersonasSeleccionada();
+        task = getTaskTableSelect();
 
         if (task != null) {
             positionTask = itemList.indexOf(task);
@@ -127,12 +216,13 @@ public class TaskInterface implements Initializable {
 
             updateTask.setDisable(false);
             deleteTask.setDisable(false);
+            addAnother.setDisable(false);
         }
     }
-    private final ListChangeListener<Task> selectorTablaPersonas =
+    private final ListChangeListener<Task> selectTaskTable =
             c -> selectTask();
 
-    public Task getTablaPersonasSeleccionada() {
+    public Task getTaskTableSelect() {
         if (taskTable != null) {
             List<Task> tabla = taskTable.getSelectionModel().getSelectedItems();
             if (tabla.size() == 1) {
@@ -147,13 +237,14 @@ public class TaskInterface implements Initializable {
 
         deleteTask.setDisable(true);
         updateTask.setDisable(true);
+        addAnother.setDisable(true);
     }
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    public void generateComboBoxActivities(){
+    public ObservableList<Activity> generateComboBoxActivities(){
         ObservableList<Activity> comboActivity = FXCollections.observableArrayList();
         List<String> names = new ArrayList<>();
         for (Process process: this.processList.getProcessList()) {
@@ -164,7 +255,7 @@ public class TaskInterface implements Initializable {
                 }
             }
         }
-        comboBoxActivity.setItems(comboActivity);
+        return comboActivity;
     }
 
     public void generateComboBoxTime(){
@@ -178,12 +269,12 @@ public class TaskInterface implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.processList = ProcessList.getInstance();
 
-        generateComboBoxActivities();
+        comboBoxActivity.setItems(generateComboBoxActivities());
         generateComboBoxTime();
 
         comboBoxTime.getSelectionModel().selectFirst();
-        final ObservableList<Task> tableActivitySelect = taskTable.getSelectionModel().getSelectedItems();
-        tableActivitySelect.addListener(selectorTablaPersonas);
+        ObservableList<Task> tableActivitySelect = taskTable.getSelectionModel().getSelectedItems();
+        tableActivitySelect.addListener(selectTaskTable);
         clean();
     }
 }
