@@ -52,7 +52,7 @@ public class ProcessInterface implements Initializable {
     private Process p;
     int positionProcess = 0;
 
-    public void chargeTable(){
+    public void uploadTable(){
         itemList = FXCollections.observableArrayList(this.processList.getProcessList());
         tableProcess.setItems(itemList);
 
@@ -80,7 +80,8 @@ public class ProcessInterface implements Initializable {
         }
 
         this.processList.addProcess(new Process(idProcess.getText(), nameProcess.getText()));
-        this.chargeTable();
+        this.uploadTable();
+        clean();
     }
 
     @FXML
@@ -99,7 +100,8 @@ public class ProcessInterface implements Initializable {
     @FXML
     void deleteProcess(ActionEvent event) {
         this.processList.removeProcess(p);
-        this.chargeTable();
+        this.uploadTable();
+        clean();
     }
 
     @FXML
@@ -108,11 +110,12 @@ public class ProcessInterface implements Initializable {
             return;
         }
         this.processList.update(p, new Process(idProcess.getText(), nameProcess.getText()));
-        this.chargeTable();
+        this.uploadTable();
+        clean();
     }
 
 
-    private final ListChangeListener<Process> selectorTablaPersonas =
+    private final ListChangeListener<Process> selectTableProcess =
             new ListChangeListener<Process>() {
                 @Override
                 public void onChanged(ListChangeListener.Change<? extends Process> c) {
@@ -147,14 +150,20 @@ public class ProcessInterface implements Initializable {
         this.stage = stage;
     }
 
+    public void clean(){
+        nameProcess.setText("");
+        idProcess.setText("");
+        update.setDisable(true);
+        delete.setDisable(true);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.processList = ProcessList.getInstance();
-        this.chargeTable();
+        this.uploadTable();
         final ObservableList<Process> tableProcessSelect = tableProcess.getSelectionModel().getSelectedItems();
-        tableProcessSelect.addListener(selectorTablaPersonas);
+        tableProcessSelect.addListener(selectTableProcess);
 
-        update.setDisable(true);
-        delete.setDisable(true);
+        clean();
     }
 }
