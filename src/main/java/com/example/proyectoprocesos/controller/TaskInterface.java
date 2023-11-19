@@ -2,6 +2,7 @@ package com.example.proyectoprocesos.controller;
 
 import com.example.proyectoprocesos.modelo.Activity;
 import com.example.proyectoprocesos.modelo.Process;
+import com.example.proyectoprocesos.modelo.estructuraDatos.Queue;
 import com.example.proyectoprocesos.modelo.ProcessList;
 import com.example.proyectoprocesos.modelo.Task;
 import javafx.collections.FXCollections;
@@ -27,15 +28,6 @@ import java.util.ResourceBundle;
 public class TaskInterface implements Initializable {
 
     @FXML
-    private Button addTaskEnd;
-
-    @FXML
-    private Button addTaskPosition;
-
-    @FXML
-    private Button back;
-
-    @FXML
     private ComboBox<Activity> comboBoxActivity;
 
     @FXML
@@ -58,14 +50,13 @@ public class TaskInterface implements Initializable {
 
     private String time = "0";
     private Stage stage;
-    private Task task;
     private ObservableList<Task> itemList;
     private Activity activity;
     private ProcessList processList;
     int positionTask = 0;
 
     @FXML
-    void backMenu(ActionEvent event) throws IOException {
+    void backMenu(ActionEvent ignoredEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/proyectoprocesos/menu.fxml"));
         Parent root = loader.load();
         MainScreen controller = loader.getController();
@@ -88,7 +79,8 @@ public class TaskInterface implements Initializable {
 
     public void uploadTable(){
         itemList = FXCollections.observableArrayList();
-        for (Task t: this.activity.getTasks()) {
+        Queue<Task> tasks = (Queue<Task>) this.activity.getTasks().clone();
+        for (Task t: tasks) {
             itemList.add(t);
         }
         taskTable.setItems(itemList);
@@ -103,26 +95,19 @@ public class TaskInterface implements Initializable {
     }
 
     @FXML
-    void addTask(ActionEvent event) {
+    void addTask(ActionEvent ignoredEvent) {
         if (!validation()) {
             return;
         }
 
-//        int size = this.activity.getTasks().getSize();
-        this.activity.pushTask(new Task(descriptionTask.getText(), mandatoryTask.isSelected(), 0.0));
-//
-//        if (size == this.process.getActivities().getSize()){
-//            JOptionPane.showMessageDialog(null, "El nombre ya existe");
-//            return;
-//        }
-//
+        this.activity.pushTask(new Task(descriptionTask.getText(), mandatoryTask.isSelected(), Double.parseDouble(time)));
         this.uploadTable();
         clean();
     }
 
     @FXML
     public void selectActivity(){
-        activity = comboBoxActivity.getValue();
+        this.activity = comboBoxActivity.getValue();
         this.uploadTable();
         this.clean();
     }
@@ -133,7 +118,7 @@ public class TaskInterface implements Initializable {
     }
 
     public void selectTask() {
-        task = getTablaPersonasSeleccionada();
+        Task task = getTablaPersonasSeleccionada();
 
         if (task != null) {
             positionTask = itemList.indexOf(task);
@@ -145,19 +130,13 @@ public class TaskInterface implements Initializable {
         }
     }
     private final ListChangeListener<Task> selectorTablaPersonas =
-            new ListChangeListener<Task>() {
-                @Override
-                public void onChanged(ListChangeListener.Change<? extends Task> c) {
-                    selectTask();
-                }
-            };
+            c -> selectTask();
 
     public Task getTablaPersonasSeleccionada() {
         if (taskTable != null) {
             List<Task> tabla = taskTable.getSelectionModel().getSelectedItems();
             if (tabla.size() == 1) {
-                final Task task = tabla.get(0);
-                return task;
+                return tabla.get(0);
             }
         }
         return null;
@@ -178,10 +157,10 @@ public class TaskInterface implements Initializable {
         ObservableList<Activity> comboActivity = FXCollections.observableArrayList();
         List<String> names = new ArrayList<>();
         for (Process process: this.processList.getProcessList()) {
-            for (Activity activity: process.getActivities()) {
-                if(!names.contains(activity.getName())) {
-                    names.add(activity.getName());
-                    comboActivity.add(activity);
+            for (Activity a: process.getActivities()) {
+                if(!names.contains(a.getName())) {
+                    names.add(a.getName());
+                    comboActivity.add(a);
                 }
             }
         }

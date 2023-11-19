@@ -1,6 +1,7 @@
 package com.example.proyectoprocesos;
 
 import com.example.proyectoprocesos.controller.Login;
+import com.example.proyectoprocesos.modelo.ProcessList;
 import com.example.proyectoprocesos.modelo.Task;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +25,7 @@ public class HelloApplication extends Application {
     }
 
     public static void main(String[] args) {
+        ProcessList processList = ProcessList.getInstance();
         launch();
     }
 }

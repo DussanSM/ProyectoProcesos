@@ -24,13 +24,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ActivityInterface implements Initializable {
-
-    @FXML
-    private Button add;
-
-    @FXML
-    private Button back;
-
     @FXML
     private Button delete;
 
@@ -53,7 +46,6 @@ public class ActivityInterface implements Initializable {
     private Button update;
 
     private Process process;
-    private ProcessList processList;
     private Stage stage;
     private ObservableList<Activity> itemList;
     private Activity a;
@@ -79,7 +71,7 @@ public class ActivityInterface implements Initializable {
     }
 
     @FXML
-    void backMenu(ActionEvent event) throws IOException {
+    void backMenu(ActionEvent ignoredEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/proyectoprocesos/menu.fxml"));
         Parent root = loader.load();
         MainScreen controller = loader.getController();
@@ -100,7 +92,7 @@ public class ActivityInterface implements Initializable {
     }
 
     @FXML
-    void addActivity(ActionEvent event) {
+    void addActivity(ActionEvent ignoredEvent) {
         if (!validation()) {
             return;
         }
@@ -118,7 +110,7 @@ public class ActivityInterface implements Initializable {
     }
 
     @FXML
-    void addActivityName(ActionEvent event) {
+    void addActivityName(ActionEvent ignoredEvent) {
         if (!validation()) {
             return;
         }
@@ -136,7 +128,7 @@ public class ActivityInterface implements Initializable {
     }
 
     @FXML
-    void addActivityRecent(ActionEvent event) {
+    void addActivityRecent(ActionEvent ignoredEvent) {
         if (!validation()) {
             return;
         }
@@ -152,40 +144,34 @@ public class ActivityInterface implements Initializable {
     }
 
     @FXML
-    void selectProcess(ActionEvent event){
+    void selectProcess(ActionEvent ignoredEvent){
         process = processComboBox.getValue();
         this.uploadTable();
         this.clean();
     }
 
     private final ListChangeListener<Activity> selectorTablaPersonas =
-            new ListChangeListener<Activity>() {
-        @Override
-        public void onChanged(ListChangeListener.Change<? extends Activity> c) {
-                    selectActivity();
-                }
-    };
+            c -> selectActivity();
 
     public Activity getTablaPersonasSeleccionada() {
         if (tableActivity != null) {
             List<Activity> tabla = tableActivity.getSelectionModel().getSelectedItems();
             if (tabla.size() == 1) {
-                final Activity activity = tabla.get(0);
-                return activity;
+                return tabla.get(0);
             }
         }
         return null;
     }
 
     @FXML
-    void deleteActivity(ActionEvent event) {
+    void deleteActivity(ActionEvent ignoredEvent) {
         this.process.getActivities().removeNode(a);
         this.uploadTable();
         clean();
     }
 
     @FXML
-    void updateActivity(ActionEvent event) {
+    void updateActivity(ActionEvent ignoredEvent) {
         if(!validation() && !this.process.onlyNameEdit(nameActivity.getText())){
             return;
         }
@@ -224,7 +210,7 @@ public class ActivityInterface implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.processList = ProcessList.getInstance();
+        ProcessList processList = ProcessList.getInstance();
         ObservableList<Process> comboProcess = FXCollections.observableArrayList(processList.getProcessList());
         processComboBox.setItems(comboProcess);
         final ObservableList<Activity> tableActivitySelect = tableActivity.getSelectionModel().getSelectedItems();

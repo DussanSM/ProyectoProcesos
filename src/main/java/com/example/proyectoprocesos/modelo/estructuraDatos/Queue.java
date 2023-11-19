@@ -50,7 +50,7 @@ public class Queue<T> implements Iterable<T>{
     }
 
     @Override
-    protected Queue<T> clone(){
+    public Queue<T> clone(){
         Queue<T> newQueue = new Queue<>();
         Node<T> auxNode = firstNode;
 

@@ -9,4 +9,5 @@
         exports com.example.proyectoprocesos.controller;
         opens com.example.proyectoprocesos.controller to javafx.fxml;
         opens com.example.proyectoprocesos.modelo to javafx.base;
+        opens com.example.proyectoprocesos.modelo.estructuraDatos to javafx.base;
     }
