@@ -4,7 +4,6 @@ package com.example.proyectoprocesos.controller;
 import com.example.proyectoprocesos.modelo.Activity;
 import com.example.proyectoprocesos.modelo.Process;
 import com.example.proyectoprocesos.modelo.ProcessList;
-import com.example.proyectoprocesos.modelo.estructuraDatos.DoubleList;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;

@@ -75,4 +75,12 @@ public class Activity {
     public void setMandatory(boolean mandatory) {
         this.mandatory = mandatory;
     }
+
+    public Queue<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Queue<Task> tasks) {
+        this.tasks = tasks;
+    }
 }

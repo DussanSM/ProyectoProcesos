@@ -68,7 +68,15 @@ public class MainScreen {
 
     @FXML
     void goTask(ActionEvent event) throws IOException{
-
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/proyectoprocesos/tarea.fxml"));
+        Parent root = loader.load();
+        TaskInterface controller = loader.getController();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+        controller.setStage(stage);
+        this.stage.close();
     }
 
     @FXML
