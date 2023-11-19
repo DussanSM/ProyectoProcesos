@@ -15,10 +15,15 @@ public class Activity {
         this.name = name;
         this.description = description;
         this.mandatory = mandatory;
-        tasks = null;
+        tasks = new Queue<>();
     }
 
     public void pushTask(Task task){
+        if (tasks.isEmpty()){
+            tasks.push(task);
+            return;
+        }
+
         if(checkOptional(task, tasks.end())) {
             tasks.push(task);
         }
@@ -82,5 +87,10 @@ public class Activity {
 
     public void setTasks(Queue<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    @Override
+    public String toString(){
+        return name;
     }
 }

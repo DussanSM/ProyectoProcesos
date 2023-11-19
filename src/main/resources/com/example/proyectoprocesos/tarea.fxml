@@ -26,11 +26,11 @@
                   <Text layoutX="114.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción" />
                   <TextField fx:id="descriptionTask" layoutX="210.0" layoutY="72.0" prefWidth="200.0" />
                   <CheckBox fx:id="mandatoryTask" layoutX="259.0" layoutY="113.0" mnemonicParsing="false" text="Obligatoria" />
-                  <ComboBox fx:id="comboBoxActivity" layoutX="210.0" layoutY="144.0" prefWidth="200.0" />
+                  <ComboBox fx:id="comboBoxActivity" layoutX="210.0" layoutY="144.0" onAction="#selectActivity" prefWidth="200.0" />
                   <Text layoutX="127.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Actividad" />
                   <Text layoutX="101.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duración (Minutos)" />
-                  <Button fx:id="addTaskEnd" layoutX="162.0" layoutY="238.0" mnemonicParsing="false" text="Agregar al final" />
-                  <ComboBox fx:id="comboBoxTime" layoutX="285.0" layoutY="191.0" prefHeight="25.0" prefWidth="40.0" />
+                  <Button fx:id="addTaskEnd" layoutX="162.0" layoutY="238.0" mnemonicParsing="false" onAction="#addTask" text="Agregar al final" />
+                  <ComboBox fx:id="comboBoxTime" layoutX="259.0" layoutY="192.0" onAction="#selectTime" prefHeight="25.0" prefWidth="96.0" />
                   <Button fx:id="addTaskPosition" layoutX="325.0" layoutY="238.0" mnemonicParsing="false" text="Agregar en posicion" />
                </children>
             </AnchorPane>
@@ -38,10 +38,9 @@
                <children>
                   <TableView fx:id="taskTable" layoutY="-12.0" prefHeight="193.0" prefWidth="600.0">
                     <columns>
-                      <TableColumn prefWidth="200.0" reorderable="false" text="Tarea" />
-                        <TableColumn prefWidth="250.0" reorderable="false" text="Descripción" />
-                        <TableColumn prefWidth="70.0" reorderable="false" text="Duración" />
-                        <TableColumn reorderable="false" text="Obligatoria" />
+                        <TableColumn prefWidth="403.0" reorderable="false" text="Descripción" />
+                        <TableColumn prefWidth="100.0" reorderable="false" text="Duración" />
+                        <TableColumn prefWidth="95.0" reorderable="false" text="Obligatoria" />
                     </columns>
                   </TableView>
                   <Button fx:id="updateTask" layoutX="190.0" layoutY="189.0" mnemonicParsing="false" text="Actualizar" />

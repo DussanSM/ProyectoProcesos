@@ -155,6 +155,7 @@ public class ActivityInterface implements Initializable {
     void selectProcess(ActionEvent event){
         process = processComboBox.getValue();
         this.uploadTable();
+        this.clean();
     }
 
     private final ListChangeListener<Activity> selectorTablaPersonas =
@@ -184,8 +185,8 @@ public class ActivityInterface implements Initializable {
     }
 
     @FXML
-    void updateProcess(ActionEvent event) {
-        if(!validation()){
+    void updateActivity(ActionEvent event) {
+        if(!validation() && !this.process.onlyNameEdit(nameActivity.getText())){
             return;
         }
         Activity ac = this.process.getActivities().getNodeValue(positionActivity);

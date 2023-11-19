@@ -46,7 +46,7 @@
                     </columns>
                   </TableView>
                   <Button fx:id="delete" layoutX="333.0" layoutY="187.0" mnemonicParsing="false" onAction="#deleteActivity" text="Eliminar" />
-                  <Button fx:id="update" layoutX="204.0" layoutY="187.0" mnemonicParsing="false" onAction="#updateProcess" text="Actualizar" />
+                  <Button fx:id="update" layoutX="204.0" layoutY="187.0" mnemonicParsing="false" onAction="#updateActivity" text="Actualizar" />
                </children>
             </AnchorPane>
          </children>
