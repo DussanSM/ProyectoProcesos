@@ -3,6 +3,8 @@ package com.example.proyectoprocesos.controller;
 import com.example.proyectoprocesos.modelo.Activity;
 import com.example.proyectoprocesos.modelo.Process;
 import com.example.proyectoprocesos.modelo.ProcessList;
+import com.example.proyectoprocesos.modelo.Task;
+import com.example.proyectoprocesos.modelo.estructuraDatos.Queue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,7 +29,7 @@ import java.util.ResourceBundle;
 public class SearchInterface implements Initializable {
 
     @FXML
-    private TableView<?> activityTable;
+    private TableView<Process> activityTable;
 
     @FXML
     private ComboBox<Activity> comboBoxActivity;
@@ -39,6 +41,9 @@ public class SearchInterface implements Initializable {
     private ComboBox<?> searchTypeCombo;
 
     @FXML
+    private TableView<Task> taskColumn;
+
+    @FXML
     private TableView<?> taskTable;
 
     @FXML
@@ -47,24 +52,45 @@ public class SearchInterface implements Initializable {
     private Stage stage;
     private ProcessList processList;
     private Activity activity;
+    private ObservableList<Process> itemList;
+    private ObservableList<Task> itemListTask;
+    private Process process;
 
-    public void uploadTable(){
-        itemList = FXCollections.observableArrayList();
-        for (Activity a: this.process.getActivities()) {
-            itemList.add(a);
+    public void uploadProcessTable(){
+
+        List<Process> processes = this.processList.getProcessList();
+        List<Process> p = new ArrayList<>();
+
+        for (Process process: processes) {
+            for (Activity a: process.getActivities()) {
+                if(a.getName().equals(activity.getName())){
+                    p.add(process);
+                }
+            }
         }
-        tableActivity.setItems(itemList);
 
-        TableColumn<Process, String> nameColumn = new TableColumn<>("Proceso");
+        itemList = FXCollections.observableArrayList(p);
+        activityTable.setItems(itemList);
+
+        TableColumn<Process, String> nameColumn = new TableColumn<>("Procesos");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<Activity, String> descriptionColumn = new TableColumn<>("Descripcion");
+        this.activityTable.getColumns().setAll(nameColumn);
+    }
+
+    public void uploadTaskTable(){
+
+        itemListTask = FXCollections.observableArrayList();
+        Queue<Task> tasks = this.activity.getTasks().clone();
+        for (Task t: tasks) {
+            itemListTask.add(t);
+        }
+        taskColumn.setItems(itemListTask);
+
+        TableColumn<Task, String> descriptionColumn = new TableColumn<>("Tareas");
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-        TableColumn<Activity, String> mandatoryColumn = new TableColumn<>("Obligatorio");
-        mandatoryColumn.setCellValueFactory(new PropertyValueFactory<>("mandatory"));
-
-        this.tableActivity.getColumns().setAll(nameColumn, descriptionColumn, mandatoryColumn);
+        this.taskColumn.getColumns().setAll(descriptionColumn);
     }
 
     @FXML
@@ -83,7 +109,9 @@ public class SearchInterface implements Initializable {
     @FXML
     public void selectActivity(){
         this.activity = comboBoxActivity.getValue();
-        this.uploadTable();
+        this.uploadProcessTable();
+        uploadTaskTable();
+
     }
 
     public ObservableList<Activity> generateComboBoxActivities(){
@@ -103,7 +131,6 @@ public class SearchInterface implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.processList = ProcessList.getInstance();
-
         comboBoxActivity.setItems(generateComboBoxActivities());
     }
 
