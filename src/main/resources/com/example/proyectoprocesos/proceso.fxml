@@ -25,9 +25,10 @@
                         <Font size="24.0" />
                      </font>
                   </Text>
-                  <Button fx:id="add" layoutX="149.0" layoutY="146.0" mnemonicParsing="false" onAction="#addProcess" text="Agregar" />
-                  <Button fx:id="update" layoutX="265.0" layoutY="146.0" mnemonicParsing="false" onAction="#updateProcess" text="Actualizar" />
-                  <Button fx:id="delete" layoutX="389.0" layoutY="146.0" mnemonicParsing="false" onAction="#deleteProcess" text="Eliminar" />
+                  <Button fx:id="add" layoutX="121.0" layoutY="146.0" mnemonicParsing="false" onAction="#addProcess" text="Agregar" />
+                  <Button fx:id="update" layoutX="224.0" layoutY="146.0" mnemonicParsing="false" onAction="#updateProcess" text="Actualizar" />
+                  <Button fx:id="delete" layoutX="333.0" layoutY="146.0" mnemonicParsing="false" onAction="#deleteProcess" text="Eliminar" />
+                  <Button fx:id="processTime" layoutX="433.0" layoutY="146.0" mnemonicParsing="false" onAction="#addTime" text="Agregar Tiempo" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="188.0" prefWidth="598.0" SplitPane.resizableWithParent="false">

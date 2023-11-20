@@ -1,6 +1,7 @@
 package com.example.proyectoprocesos.modelo;
 
 import com.example.proyectoprocesos.modelo.estructuraDatos.DoubleList;
+import com.example.proyectoprocesos.modelo.estructuraDatos.Queue;
 
 import java.util.Iterator;
 import java.util.List;
@@ -10,6 +11,7 @@ public class Process {
     private String id;
     private String name;
     private ProcessList processList;
+    private double minTime;
 
     public Process(String id, String name) {
         this.processList = ProcessList.getInstance();
@@ -127,6 +129,16 @@ public class Process {
         }
         return activity;
     }
+    public double calculateMinTime(){
+        double sumTime = 0;
+        for (Activity a: activities) {
+            for (Task t: a.getTasks()){
+                sumTime+=t.getTime();
+            }
+        }
+        return sumTime;
+    }
+
 
     @Override
     public String toString(){

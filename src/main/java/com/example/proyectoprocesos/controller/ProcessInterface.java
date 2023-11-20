@@ -1,5 +1,6 @@
 package com.example.proyectoprocesos.controller;
 
+import com.example.proyectoprocesos.modelo.Activity;
 import com.example.proyectoprocesos.modelo.ProcessList;
 import com.example.proyectoprocesos.modelo.Process;
 import javafx.collections.FXCollections;
@@ -10,11 +11,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.collections.ListChangeListener;
 
@@ -46,6 +46,9 @@ public class ProcessInterface implements Initializable {
 
     @FXML
     private Button update;
+
+    @FXML
+    private Button processTime;
 
     private ProcessList processList;
     private ObservableList<Process> itemList;
@@ -144,6 +147,7 @@ public class ProcessInterface implements Initializable {
 
             update.setDisable(false);
             delete.setDisable(false);
+            processTime.setDisable(false);
         }
     }
 
@@ -156,6 +160,35 @@ public class ProcessInterface implements Initializable {
         idProcess.setText("");
         update.setDisable(true);
         delete.setDisable(true);
+        processTime.setDisable(true);
+    }
+
+    @FXML
+    void addTime(ActionEvent actionEvent){
+        openPopup();
+    }
+    private void openPopup() {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setTitle("Popup Window");
+
+        Label label = new Label(p.calculateMinTime()+"");
+
+//        addButton.setOnAction(e ->  {
+//            comboBoxPopup.getValue().pushTask(task);
+//            popupStage.close();
+//        });
+//
+        Button closeButton = new Button("Cerar Popup");
+        closeButton.setOnAction(e -> popupStage.close());
+
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(label, closeButton);
+        layout.setPadding(new javafx.geometry.Insets(10));
+
+        Scene scene = new Scene(layout, 200, 150);
+        popupStage.setScene(scene);
+        popupStage.showAndWait();
     }
 
     @Override
