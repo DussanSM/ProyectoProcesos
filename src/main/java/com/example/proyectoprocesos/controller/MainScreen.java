@@ -81,7 +81,15 @@ public class MainScreen {
 
     @FXML
     void goSearch(ActionEvent event) throws IOException{
-
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/proyectoprocesos/buscar.fxml"));
+        Parent root = loader.load();
+        SearchInterface controller = loader.getController();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+        controller.setStage(stage);
+        this.stage.close();
     }
     public void setStage(Stage stage) {
         this.stage = stage;
