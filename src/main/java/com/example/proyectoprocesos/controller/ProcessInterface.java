@@ -172,9 +172,19 @@ public class ProcessInterface implements Initializable {
         popupStage.initModality(Modality.APPLICATION_MODAL);
         popupStage.setTitle("Popup Window");
 
-        Label label = new Label(p.calculateMinTime()+"");
+        String time = p.calculateMinTime()+"";
 
-//        addButton.setOnAction(e ->  {
+        //No se calcula con el minimo sino con la variable tiempo
+        Label label = new Label(time);
+
+        ComboBox<String> comboBoxTime = new ComboBox<>();
+        ObservableList<String> comboNumber = FXCollections.observableArrayList();
+        for (double i = Double.parseDouble(time); i <=  900; i++){
+            comboNumber.add(i+"");
+        }
+        comboBoxTime.setItems(comboNumber);
+
+//        addButton.sxetOnAction(e ->  {
 //            comboBoxPopup.getValue().pushTask(task);
 //            popupStage.close();
 //        });
@@ -183,7 +193,7 @@ public class ProcessInterface implements Initializable {
         closeButton.setOnAction(e -> popupStage.close());
 
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(label, closeButton);
+        layout.getChildren().addAll(label, comboBoxTime, closeButton);
         layout.setPadding(new javafx.geometry.Insets(10));
 
         Scene scene = new Scene(layout, 200, 150);

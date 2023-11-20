@@ -132,7 +132,8 @@ public class Process {
     public double calculateMinTime(){
         double sumTime = 0;
         for (Activity a: activities) {
-            for (Task t: a.getTasks()){
+            Queue<Task> tasks = a.getTasks().clone();
+            for (Task t: tasks){
                 sumTime+=t.getTime();
             }
         }

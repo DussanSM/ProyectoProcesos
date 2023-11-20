@@ -41,18 +41,18 @@
                      <children>
                         <AnchorPane prefHeight="251.0" prefWidth="604.0">
                            <children>
-                              <Text layoutX="109.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Buscar tarea por palabra clave" />
-                              <TextField layoutX="114.0" layoutY="35.0" />
-                              <Text layoutX="375.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de busqueda" />
-                              <ComboBox fx:id="searchTypeCombo" layoutX="348.0" layoutY="35.0" prefWidth="150.0" />
-                              <TableView fx:id="taskTable" layoutX="105.0" layoutY="115.0" prefHeight="73.0" prefWidth="393.0">
+                              <Text layoutX="58.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Buscar tarea por palabra clave" />
+                              <TextField fx:id="word" layoutX="73.0" layoutY="35.0" />
+                              <Text layoutX="383.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de busqueda" />
+                              <ComboBox fx:id="searchTypeCombo" layoutX="318.0" layoutY="35.0" prefHeight="24.0" prefWidth="246.0" />
+                              <TableView fx:id="taskTable" layoutX="113.0" layoutY="110.0" prefHeight="135.0" prefWidth="393.0">
                                 <columns>
                                   <TableColumn prefWidth="199.99996948242188" reorderable="false" text="Descripcion" />
                                   <TableColumn prefWidth="90.66668701171875" reorderable="false" text="Obligatoria" />
                                     <TableColumn prefWidth="100.66664632161456" reorderable="false" text="Duracion" />
                                 </columns>
                               </TableView>
-                              <Button fx:id="searchTaskButton" layoutX="277.0" layoutY="76.0" mnemonicParsing="false" text="Buscar" />
+                              <Button fx:id="searchTaskButton" layoutX="277.0" layoutY="76.0" mnemonicParsing="false" onAction="#searchTask" text="Buscar" />
                            </children>
                         </AnchorPane>
                      </children>

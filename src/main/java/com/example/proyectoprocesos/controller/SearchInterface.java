@@ -13,13 +13,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,16 +36,18 @@ public class SearchInterface implements Initializable {
     private Button searchTaskButton;
 
     @FXML
-    private ComboBox<?> searchTypeCombo;
+    private ComboBox<String> searchTypeCombo;
 
     @FXML
     private TableView<Task> taskColumn;
 
     @FXML
-    private TableView<?> taskTable;
+    private TableView<Task> taskTable;
 
     @FXML
     private Button backButton;
+    @FXML
+    private TextField word;
 
     private Stage stage;
     private ProcessList processList;
@@ -112,6 +112,7 @@ public class SearchInterface implements Initializable {
         this.uploadProcessTable();
         uploadTaskTable();
 
+        searchTypeCombo.setDisable(false);
     }
 
     public ObservableList<Activity> generateComboBoxActivities(){
@@ -128,10 +129,100 @@ public class SearchInterface implements Initializable {
         return comboActivity;
     }
 
+    @FXML
+    public void searchTask(ActionEvent ignoredActionEvent){
+
+        if(searchTypeCombo.getSelectionModel().isEmpty()){
+            return;
+        }
+
+        ObservableList<Task> itemTaskSearch = FXCollections.observableArrayList();
+        if(searchTypeCombo.getSelectionModel().isSelected(0)){
+            if(!validationWord()){
+                return;
+            }
+
+            for (Process p: processList.getProcessList()) {
+                for (Activity a: p.getActivities()) {
+                    searchTaskQueue(itemTaskSearch, a);
+                }
+            }
+        }
+
+        if(searchTypeCombo.getSelectionModel().isSelected(1)){
+            if(!validationWord()){
+                return;
+            }
+            searchTaskQueue(itemTaskSearch, activity);
+        }
+
+        if(searchTypeCombo.getSelectionModel().isSelected(2)){
+            if(!validationWord()){
+                return;
+            }
+            String name = JOptionPane.showInputDialog("Ingrese el nombre de la activida: ");
+            Activity ac = null;
+            for (Process process: this.processList.getProcessList()) {
+                for (Activity a: process.getActivities()) {
+                    if(name.equals(a.getName())) {
+                        ac = a;
+                    }
+                }
+            }
+
+            if (ac == null){
+                JOptionPane.showMessageDialog(null, "Esa actividad no existe");
+                return;
+            }
+
+            searchTaskQueue(itemTaskSearch, ac);
+        }
+
+        uploadSearchTaskTable(itemTaskSearch);
+    }
+
+    public void searchTaskQueue(ObservableList<Task> i, Activity a){
+        Queue<Task> tasks = a.getTasks().clone();
+        for (Task t: tasks) {
+            if(t.getDescription().contains(word.getText())){
+                i.add(t);
+            }
+        }
+    }
+    public boolean validationWord(){
+        if(word.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Debe ingresar una palabra para buscar");
+            return false;
+        }
+
+        return true;
+    }
+    public void uploadSearchTaskTable(ObservableList<Task> itemsTable){
+        this.taskTable.setItems(itemsTable);
+
+        TableColumn<Task, String> descriptionColumn = new TableColumn<>("Descripcion");
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+        TableColumn<Task, String> mandatoryColumn = new TableColumn<>("Obligatorio");
+        mandatoryColumn.setCellValueFactory(new PropertyValueFactory<>("mandatory"));
+
+        TableColumn<Task, Double> timeColumn = new TableColumn<>("Tiempo");
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("Time"));
+        this.taskTable.getColumns().setAll(descriptionColumn, mandatoryColumn, timeColumn);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.processList = ProcessList.getInstance();
         comboBoxActivity.setItems(generateComboBoxActivities());
+
+        ObservableList<String> list = FXCollections.observableArrayList(
+                "Buscar desde el inicio",
+                "Desde la actividad actual",
+                "Desde una actividad dado su nombre"
+                );
+        searchTypeCombo.setItems(list);
+        searchTypeCombo.setDisable(true);
     }
 
     public void setStage(Stage stage) {
