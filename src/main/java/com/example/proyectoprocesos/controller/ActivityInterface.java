@@ -15,6 +15,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -49,6 +51,7 @@ public class ActivityInterface implements Initializable {
     private Stage stage;
     private ObservableList<Activity> itemList;
     private Activity a;
+    private ProcessList processList;
     int positionActivity = 0;
 
     public void uploadTable(){
@@ -210,7 +213,7 @@ public class ActivityInterface implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ProcessList processList = ProcessList.getInstance();
+        processList = ProcessList.getInstance();
         ObservableList<Process> comboProcess = FXCollections.observableArrayList(processList.getProcessList());
         processComboBox.setItems(comboProcess);
         final ObservableList<Activity> tableActivitySelect = tableActivity.getSelectionModel().getSelectedItems();
@@ -219,4 +222,34 @@ public class ActivityInterface implements Initializable {
         clean();
     }
 
+    @FXML
+    public void addOtherProcess(ActionEvent ignoredActionEvent){
+        openPopup();
+    }
+    private void openPopup() {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setTitle("Popup Window");
+
+        ComboBox<Process> comboBoxPopup = new ComboBox<>();
+        ObservableList<Process> comboProcess = FXCollections.observableArrayList(processList.getProcessList());
+        comboBoxPopup.setItems(comboProcess);
+
+        Button addButton = new Button("Agregar Tarea");
+        addButton.setOnAction(e ->  {
+            comboBoxPopup.getValue().addActivityEnd(a);
+            popupStage.close();
+        });
+
+        Button closeButton = new Button("Cerar Popup");
+        closeButton.setOnAction(e -> popupStage.close());
+
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(comboBoxPopup, addButton, closeButton);
+        layout.setPadding(new javafx.geometry.Insets(10));
+
+        Scene scene = new Scene(layout, 200, 150);
+        popupStage.setScene(scene);
+        popupStage.showAndWait();
+    }
 }

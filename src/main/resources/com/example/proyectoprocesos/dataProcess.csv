@@ -1,0 +1,15 @@
+Name, ID
+Proceso_1,123
+Activity,Description,Mandatory
+actividad_1,Hace algo,true
+Task,Mandatory,Time
+tarea_1,true,32
+tarea_2,false,12
+tarea_3,true,5
+Activity,Description,Mandatory
+actividad_2,Hace algo,false
+actividad_3,Hace algo,true
+Proceso_2,456
+Activity,Description,Mandatory
+actividad_5,Hace algo,true
+Proceso_3,780
