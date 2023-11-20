@@ -31,7 +31,7 @@
                   <ComboBox fx:id="processComboBox" layoutX="202.0" layoutY="68.0" onAction="#selectProcess" prefWidth="200.0" />
                   <Text layoutX="113.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prroceso" />
                   <Button fx:id="addName" layoutX="74.0" layoutY="226.0" mnemonicParsing="false" onAction="#addActivityName" text="Agregar por nombre" />
-                  <Button layoutX="493.0" layoutY="15.0" mnemonicParsing="false" text="Intercambiar" />
+                  <Button layoutX="493.0" layoutY="15.0" mnemonicParsing="false" onAction="#exchangeActivity" text="Intercambiar" />
                   <Button fx:id="addEnd" layoutX="250.0" layoutY="226.0" mnemonicParsing="false" onAction="#addActivity" text="Agregar al Final" />
                   <Button fx:id="addRecent" layoutX="400.0" layoutY="226.0" mnemonicParsing="false" onAction="#addActivityRecent" text="Agregar ultima actividad " />
                </children>

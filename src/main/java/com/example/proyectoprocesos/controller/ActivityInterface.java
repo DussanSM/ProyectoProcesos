@@ -4,6 +4,9 @@ package com.example.proyectoprocesos.controller;
 import com.example.proyectoprocesos.modelo.Activity;
 import com.example.proyectoprocesos.modelo.Process;
 import com.example.proyectoprocesos.modelo.ProcessList;
+import com.example.proyectoprocesos.modelo.Task;
+import com.example.proyectoprocesos.modelo.estructuraDatos.DoubleNode;
+import com.example.proyectoprocesos.modelo.estructuraDatos.Queue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -22,6 +25,7 @@ import javafx.stage.Stage;
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -228,6 +232,11 @@ public class ActivityInterface implements Initializable {
     }
 
     @FXML
+    public void exchangeActivity(ActionEvent ignoreActionEvent){
+        openPopupExchange();
+    }
+
+    @FXML
     public void addOtherProcess(ActionEvent ignoredActionEvent){
         openPopup();
     }
@@ -240,7 +249,7 @@ public class ActivityInterface implements Initializable {
         ObservableList<Process> comboProcess = FXCollections.observableArrayList(processList.getProcessList());
         comboBoxPopup.setItems(comboProcess);
 
-        Button addButton = new Button("Agregar Actividad");
+        Button addButton = new Button("Agregar Actividadx");
         addButton.setOnAction(e ->  {
             comboBoxPopup.getValue().addActivityEnd(a);
             popupStage.close();
@@ -256,5 +265,80 @@ public class ActivityInterface implements Initializable {
         Scene scene = new Scene(layout, 200, 150);
         popupStage.setScene(scene);
         popupStage.showAndWait();
+    }
+
+    private ObservableList<Activity> selectActivities(){
+        List<Activity> activities = new ArrayList<>();
+        for (Process p : processList.getProcessList()) {
+            for (Activity a : p.getActivities()) {
+                if (!activities.contains(a)) {
+                    activities.add(a);
+                }
+            }
+        }
+        return FXCollections.observableArrayList(activities);
+    }
+
+    private void openPopupExchange() {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setTitle("Popup Window");
+
+        ComboBox<Activity> comboBoxPopup1 = new ComboBox<>();
+        comboBoxPopup1.setItems(selectActivities());
+
+        ComboBox<Activity> comboBoxPopup2 = new ComboBox<>();
+        comboBoxPopup2.setItems(selectActivities());
+
+        Button exButton = new Button("Intercambiar Nombres Sin Tareas");
+        exButton.setOnAction(e ->  {
+            if (comboBoxPopup1.getValue() == null || comboBoxPopup2.getValue() == null){
+                JOptionPane.showMessageDialog(null, "Seleccione todo los campos");
+                return;
+            }
+            Activity activity1 = comboBoxPopup1.getValue();
+            Activity activity2 = comboBoxPopup2.getValue();
+            exchangeName(activity1, activity2);
+            popupStage.close();
+            try {
+                uploadTable();
+            }catch (Exception exception){}
+        });
+
+        Button exTaskButton = new Button("Intercambiar Nombres Con Tareas");
+        exTaskButton.setOnAction(e ->  {
+            if (comboBoxPopup1.getValue() == null || comboBoxPopup2.getValue() == null){
+                JOptionPane.showMessageDialog(null, "Seleccione todo los campos");
+                return;
+            }
+            Activity activity1 = comboBoxPopup1.getValue();
+            Activity activity2 = comboBoxPopup2.getValue();
+            exchangeName(activity1, activity2);
+
+            Queue<Task> t = activity1.getTasks();
+            activity1.setTasks(activity2.getTasks());
+            activity2.setTasks(t);
+            popupStage.close();
+            try {
+                uploadTable();
+            }catch (Exception exception){}
+        });
+
+        Button closeButton = new Button("Cerar Popup");
+        closeButton.setOnAction(e -> popupStage.close());
+
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(comboBoxPopup1, comboBoxPopup2, exButton, exTaskButton, closeButton);
+        layout.setPadding(new javafx.geometry.Insets(10));
+
+        Scene scene = new Scene(layout, 300, 250);
+        popupStage.setScene(scene);
+        popupStage.showAndWait();
+    }
+
+    private void exchangeName(Activity a, Activity b){
+        String name = a.getName();
+        a.setName(b.getName());
+        b.setName(name);
     }
 }
