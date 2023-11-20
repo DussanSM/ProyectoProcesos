@@ -30,6 +30,9 @@ public class ActivityInterface implements Initializable {
     private Button delete;
 
     @FXML
+    private Button addInOther;
+
+    @FXML
     private TextField descriptionActivity;
 
     @FXML
@@ -193,6 +196,7 @@ public class ActivityInterface implements Initializable {
         mandatory.setSelected(false);
         update.setDisable(true);
         delete.setDisable(true);
+        addInOther.setDisable(true);
     }
     private void selectActivity() {
         a = getTablaPersonasSeleccionada();
@@ -205,6 +209,7 @@ public class ActivityInterface implements Initializable {
 
             update.setDisable(false);
             delete.setDisable(false);
+            addInOther.setDisable(false);
         }
     }
     public void setStage(Stage stage) {
@@ -235,7 +240,7 @@ public class ActivityInterface implements Initializable {
         ObservableList<Process> comboProcess = FXCollections.observableArrayList(processList.getProcessList());
         comboBoxPopup.setItems(comboProcess);
 
-        Button addButton = new Button("Agregar Tarea");
+        Button addButton = new Button("Agregar Actividad");
         addButton.setOnAction(e ->  {
             comboBoxPopup.getValue().addActivityEnd(a);
             popupStage.close();

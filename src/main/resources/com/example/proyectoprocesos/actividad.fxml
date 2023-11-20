@@ -47,7 +47,7 @@
                   </TableView>
                   <Button fx:id="delete" layoutX="184.0" layoutY="187.0" mnemonicParsing="false" onAction="#deleteActivity" text="Eliminar" />
                   <Button fx:id="update" layoutX="59.0" layoutY="187.0" mnemonicParsing="false" onAction="#updateActivity" text="Actualizar" />
-                  <Button layoutX="288.0" layoutY="187.0" mnemonicParsing="false" onAction="#addOtherProcess" text="Agregar Actividad en otro Proceso" textAlignment="CENTER" />
+                  <Button fx:id="addInOther" layoutX="288.0" layoutY="187.0" mnemonicParsing="false" onAction="#addOtherProcess" text="Agregar Actividad en otro Proceso" textAlignment="CENTER" />
                </children>
             </AnchorPane>
          </children>
