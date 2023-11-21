@@ -8,14 +8,62 @@ Task,Mandatory,Time
 tarea_2,false,12.0
 Task,Mandatory,Time
 tarea_3,true,5.0
+Task,Mandatory,Time
+tarea_4,false,1.0
 Activity,Description,Mandatory
 actividad_2,Hace algo,false
+Task,Mandatory,Time
+tarea_2,false,12.0
+Task,Mandatory,Time
+tarea_6,true,6.0
+Task,Mandatory,Time
+tarea_8,true,6.0
 Activity,Description,Mandatory
 actividad_3,Hace algo,true
+Task,Mandatory,Time
+tarea_1,true,32.0
+Task,Mandatory,Time
+tarea_6,true,6.0
+Task,Mandatory,Time
+tarea_45,false,51.0
+Activity,Description,Mandatory
+actividad_4,Hace algo,false
+Task,Mandatory,Time
+tarea_4,false,1.0
+Task,Mandatory,Time
+tarea_22,true,48.0
+Task,Mandatory,Time
+tarea_2,false,12.0
+Task,Mandatory,Time
+tarea_3,true,5.0
 Name,ID
 Proceso_2,456
 Activity,Description,Mandatory
 actividad_5,Hace algo,true
+Task,Mandatory,Time
+tarea_10,false,23.0
+Task,Mandatory,Time
+tarea_1,true,32.0
+Activity,Description,Mandatory
+actividad_2,Hace algo,false
+Task,Mandatory,Time
+tarea_2,false,12.0
+Task,Mandatory,Time
+tarea_6,true,6.0
+Task,Mandatory,Time
+tarea_8,true,6.0
+Activity,Description,Mandatory
+actividad_6,También hace algo, se supone,false
+Activity,Description,Mandatory
+actividad_1,Hace algo,true
+Task,Mandatory,Time
+tarea_1,true,32.0
+Task,Mandatory,Time
+tarea_2,false,12.0
+Task,Mandatory,Time
+tarea_3,true,5.0
+Task,Mandatory,Time
+tarea_4,false,1.0
 Name,ID
 Proceso_3,780
 Activity,Description,Mandatory

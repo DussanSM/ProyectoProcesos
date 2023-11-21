@@ -35,8 +35,8 @@
                <children>
                   <TableView fx:id="tableProcess" layoutY="-1.0" prefHeight="203.0" prefWidth="597.0">
                     <columns>
-                      <TableColumn prefWidth="150.0" text="ID" />
-                      <TableColumn editable="false" prefWidth="600.0" text="Nombre" />
+                      <TableColumn reorderable="false" editable="false" resizable="false" prefWidth="150.0" text="ID"/>
+                      <TableColumn reorderable="false" editable="false" resizable="false" prefWidth="600.0" text="Nombre"/>
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
