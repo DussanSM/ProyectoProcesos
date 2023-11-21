@@ -6,6 +6,7 @@ import com.example.proyectoprocesos.modelo.ProcessList;
 import com.example.proyectoprocesos.modelo.Task;
 import com.example.proyectoprocesos.modelo.estructuraDatos.Queue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,8 +47,18 @@ public class SearchInterface implements Initializable {
 
     @FXML
     private Button backButton;
+
     @FXML
     private TextField word;
+
+    @FXML
+    private Label minTimeProcess;
+
+    @FXML
+    private Label maxTimeProcess;
+
+    @FXML
+    private Label minTimeActivity;
 
     private Stage stage;
     private ProcessList processList;
@@ -110,9 +121,29 @@ public class SearchInterface implements Initializable {
     public void selectActivity(){
         this.activity = comboBoxActivity.getValue();
         this.uploadProcessTable();
+        this.minTimeActivity.setText(this.activity.calculateMinTime()+"");
         uploadTaskTable();
 
         searchTypeCombo.setDisable(false);
+    }
+
+    private final ListChangeListener<Process> selectTableProcess =
+            c -> selectProcess();
+    public Process getTableProcessSelect() {
+        if (activityTable != null) {
+            List<Process> tabla = activityTable.getSelectionModel().getSelectedItems();
+            if (tabla.size() == 1) {
+                return tabla.get(0);
+            }
+        }
+        return null;
+    }
+    private void selectProcess() {
+        process = getTableProcessSelect();
+        this.minTimeProcess.setText(this.process.calculateMinTime()+"");
+        this.maxTimeProcess.setText(this.process.getMinTime()+"");
+        uploadTaskTable();
+
     }
 
     public ObservableList<Activity> generateComboBoxActivities(){
@@ -215,6 +246,9 @@ public class SearchInterface implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.processList = ProcessList.getInstance();
         comboBoxActivity.setItems(generateComboBoxActivities());
+
+        final ObservableList<Process> tableProcessSelect = activityTable.getSelectionModel().getSelectedItems();
+        tableProcessSelect.addListener(selectTableProcess);
 
         ObservableList<String> list = FXCollections.observableArrayList(
                 "Buscar desde el inicio",

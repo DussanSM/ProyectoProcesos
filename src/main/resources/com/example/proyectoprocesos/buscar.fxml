@@ -26,15 +26,17 @@
                             <TableColumn minWidth="0.0" prefWidth="163.9999644756317" reorderable="false" text="Procesos" />
                           </columns>
                         </TableView>
-                        <Text layoutX="348.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tiempo minimo para su finalización" />
-                        <Text layoutX="347.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tiempo maximo para su finalizacion" />
-                        <Label layoutX="428.0" layoutY="116.0" text="Label" />
-                        <Label layoutX="428.0" layoutY="205.0" text="Label" />
+                        <Text layoutX="374.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tiempo minimo de la actividad" />
+                        <Text layoutX="381.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tiempo minimo del proceso" />
+                        <Label fx:id="minTimeActivity" layoutX="442.0" layoutY="91.0" />
+                        <Label fx:id="minTimeProcess" layoutX="442.0" layoutY="165.0" />
                         <TableView fx:id="taskColumn" layoutX="166.0" layoutY="65.0" prefHeight="200.0" prefWidth="159.0">
                           <columns>
                             <TableColumn prefWidth="158.00000508626303" reorderable="false" text="Tareas" />
                           </columns>
                         </TableView>
+                        <Text layoutX="381.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tiempo maximo del proceso" />
+                        <Label fx:id="maxTimeProcess" layoutX="441.0" layoutY="224.0" />
                      </children>
                   </AnchorPane>
                   <AnchorPane prefHeight="254.0" prefWidth="604.0">

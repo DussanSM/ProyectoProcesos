@@ -56,6 +56,15 @@ public class Activity {
         return true;
     }
 
+    public double calculateMinTime(){
+        double sumTime = 0;
+        Queue<Task> tasks = this.getTasks().clone();
+            for (Task t: tasks){
+                sumTime+=t.getTime();
+            }
+        return sumTime;
+    }
+
     public String getName() {
         return name;
     }
