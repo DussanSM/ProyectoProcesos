@@ -91,7 +91,8 @@ public class MainScreen {
 
     @FXML
     public void exportData(ActionEvent ignoredEvent) throws IOException{
-
+        ProcessList processList = ProcessList.getInstance();
+        processList.exportToCsv("src/main/resources/com/example/proyectoprocesos/dataProcess.csv");
     }
 
     public Stage getStage() {

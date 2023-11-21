@@ -31,15 +31,15 @@ public class Login {
     void login(ActionEvent event) throws IOException {
         String name = this.name.getText();
         String password = this.password.getText();
-//        if(password.isEmpty() && name.isEmpty()) {
-//            JOptionPane.showMessageDialog(null, "Debe ingresar un usuario y/o password");
-//            return;
-//        }
-//
-//        if(!name.equals("admin") && !password.equals("admin")){
-//            JOptionPane.showMessageDialog(null, "Usuario y/o password incorrectos");
-//            return;
-//        }
+        if(password.isEmpty() && name.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar un usuario y/o password");
+            return;
+        }
+
+        if(!name.equals("admin") && !password.equals("admin")){
+            JOptionPane.showMessageDialog(null, "Usuario y/o password incorrectos");
+            return;
+        }
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/proyectoprocesos/menu.fxml"));
         Parent root = loader.load();

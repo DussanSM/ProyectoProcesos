@@ -2,6 +2,7 @@ package com.example.proyectoprocesos.modelo;
 
 import com.example.proyectoprocesos.modelo.estructuraDatos.DoubleNode;
 import com.example.proyectoprocesos.modelo.estructuraDatos.Node;
+import com.example.proyectoprocesos.modelo.estructuraDatos.Queue;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -43,6 +44,7 @@ public class ProcessList implements Iterable<Process>{
     public void importFromCsv(String filePath) {
         CsvService<Activity> csvService = new CsvService<>();
 
+        this.processList.removeAll(processList);
         List<String[]> importedData = csvService.importFromCsv(filePath);
 
         if (importedData.size() >= 2) {
@@ -53,8 +55,10 @@ public class ProcessList implements Iterable<Process>{
                     ++i;
                     String[] processData = importedData.get(i);
                     if (processData.length == 2) {
-                        addProcess(new Process(processData[1], processData[0]));
-                        passTask = false;
+                        if (!processData[0].equals("Name")) {
+                            addProcess(new Process(processData[1], processData[0]));
+                            passTask = false;
+                        }
                     }
 
                     if(processData[0].equals("Activity")){
@@ -88,6 +92,27 @@ public class ProcessList implements Iterable<Process>{
         }
 
         this.refreshTime();
+    }
+
+    public void exportToCsv(String filePath) {
+        List<String[]> data = new ArrayList<>();
+
+        for(Process p : this.processList) {
+            data.add(new String[]{"Name", "ID"});
+            data.add(new String[]{p.getName(), p.getId()});
+            for (Activity a: p.getActivities()) {
+                data.add(new String[]{"Activity", "Description", "Mandatory"});
+                data.add(new String[]{a.getName(), a.getDescription(), a.isMandatory()+""});
+                Queue<Task> tasks = a.getTasks().clone();
+                for (Task t: tasks){
+                    data.add(new String[]{"Task", "Mandatory", "Time"});
+                    data.add(new String[]{t.getDescription(), t.isMandatory()+"", t.getTime()+""});
+                }
+            }
+        }
+
+        CsvService<Activity> csvService = new CsvService<>();
+        csvService.exportToCsv(filePath, data);
     }
 
     public void refreshTime(){
