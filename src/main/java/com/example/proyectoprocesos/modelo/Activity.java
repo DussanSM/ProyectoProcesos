@@ -1,5 +1,6 @@
 package com.example.proyectoprocesos.modelo;
 
+import com.example.proyectoprocesos.modelo.estructuraDatos.Node;
 import com.example.proyectoprocesos.modelo.estructuraDatos.Queue;
 
 import javax.swing.*;
@@ -46,6 +47,33 @@ public class Activity {
         }
 
         tasks = newQueue;
+    }
+
+    public void deleteTaskQueue(Queue<Task> taskQueue, Task task, Node<Task> nodePre){
+        if (taskQueue.isEmpty()){
+            return;
+        }
+        Node<Task> nodePreL = taskQueue.getFirstNode();
+        Task taskData = taskQueue.pop();
+        Node<Task> nodeNext = taskQueue.getFirstNode();
+
+        if(!(nodePre == null) && nodeNext != null){
+            if(!(nodePre.getValue().isMandatory() || nodeNext.getValue().isMandatory())
+                && taskData == task){
+                deleteTaskQueue(taskQueue, task, nodePreL);
+                JOptionPane.showMessageDialog(null,
+                    "No se puede ya que quedan dos no obligatorias seguidas");
+                taskQueue.push(taskData);
+                return;
+            }
+        }
+
+        if (taskData == task){
+            deleteTaskQueue(taskQueue, task, nodePreL);
+            return;
+        }
+        deleteTaskQueue(taskQueue, task, nodePreL);
+        taskQueue.push(taskData);
     }
 
     public boolean checkOptional(Task taskNext, Task task){

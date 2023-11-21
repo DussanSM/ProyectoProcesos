@@ -141,24 +141,12 @@ public class TaskInterface implements Initializable {
         }
 
         Queue<Task> taskQueue = this.activity.getTasks().clone();
-        deleteTaskQueue(taskQueue);
+        this.activity.deleteTaskQueue(taskQueue, task, null);
+        this.activity.deleteTaskQueue(taskQueue, null, null);
         this.activity.setTasks(taskQueue);
         this.uploadTable();
         clean();
         this.processList.refreshTime();
-    }
-
-    public void deleteTaskQueue(Queue<Task> taskQueue){
-        if (taskQueue.isEmpty()){
-            return;
-        }
-
-        Task taskData = taskQueue.pop();
-        if (taskData == task){
-            return;
-        }
-        deleteTaskQueue(taskQueue);
-        taskQueue.push(taskData);
     }
     @FXML
     void addTaskIndex(ActionEvent ignoredEvent) {
