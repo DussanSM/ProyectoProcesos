@@ -7,3 +7,5 @@ La aplicación permite la creación y modificación de procesos con sus respecti
 Gasser Abdeslam Abdelgelil Serna
 Santiago Marín Dussán
 ```
+## Licencia
+GNU General Public License
