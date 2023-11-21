@@ -53,11 +53,15 @@ public class ProcessInterface implements Initializable {
         itemList = FXCollections.observableArrayList(this.processList.getProcessList());
         tableProcess.setItems(itemList);
 
+        Util<Process> t = new Util<>();
+
         TableColumn<Process, String> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        t.columnSettings(idColumn, 150);
 
         TableColumn<Process, String> nameColumn = new TableColumn<>("Nombre");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        t.columnSettings(nameColumn, 450);
 
         this.tableProcess.getColumns().setAll(idColumn, nameColumn);
     }

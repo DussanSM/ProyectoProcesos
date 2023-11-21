@@ -83,8 +83,11 @@ public class SearchInterface implements Initializable {
         itemList = FXCollections.observableArrayList(p);
         activityTable.setItems(itemList);
 
+        Util<Process> t = new Util<>();
+
         TableColumn<Process, String> nameColumn = new TableColumn<>("Procesos");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        t.columnSettings(nameColumn, 158.8);
 
         this.activityTable.getColumns().setAll(nameColumn);
     }
@@ -98,8 +101,11 @@ public class SearchInterface implements Initializable {
         }
         taskColumn.setItems(itemListTask);
 
+        Util<Task> t = new Util<>();
+
         TableColumn<Task, String> descriptionColumn = new TableColumn<>("Tareas");
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        t.columnSettings(descriptionColumn, 156);
 
         this.taskColumn.getColumns().setAll(descriptionColumn);
     }
@@ -231,14 +237,20 @@ public class SearchInterface implements Initializable {
     public void uploadSearchTaskTable(ObservableList<Task> itemsTable){
         this.taskTable.setItems(itemsTable);
 
+        Util<Task> t = new Util<>();
+
         TableColumn<Task, String> descriptionColumn = new TableColumn<>("Descripcion");
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        t.columnSettings(descriptionColumn, 199);
 
         TableColumn<Task, String> mandatoryColumn = new TableColumn<>("Obligatorio");
         mandatoryColumn.setCellValueFactory(new PropertyValueFactory<>("mandatory"));
+        t.columnSettings(mandatoryColumn, 90);
 
-        TableColumn<Task, Double> timeColumn = new TableColumn<>("Tiempo");
+        TableColumn<Task, String> timeColumn = new TableColumn<>("Tiempo");
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("Time"));
+        t.columnSettings(timeColumn, 100);
+
         this.taskTable.getColumns().setAll(descriptionColumn, mandatoryColumn, timeColumn);
     }
 

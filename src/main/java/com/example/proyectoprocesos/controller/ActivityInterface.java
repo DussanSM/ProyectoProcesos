@@ -67,14 +67,19 @@ public class ActivityInterface implements Initializable {
         }
         tableActivity.setItems(itemList);
 
+        Util<Activity> t = new Util<>();
+
         TableColumn<Activity, String> nameColumn = new TableColumn<>("Actividad");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        t.columnSettings(nameColumn, 180);
 
         TableColumn<Activity, String> descriptionColumn = new TableColumn<>("Descripcion");
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        t.columnSettings(descriptionColumn, 310);
 
         TableColumn<Activity, String> mandatoryColumn = new TableColumn<>("Obligatorio");
         mandatoryColumn.setCellValueFactory(new PropertyValueFactory<>("mandatory"));
+        t.columnSettings(mandatoryColumn, 100);
 
         this.tableActivity.getColumns().setAll(nameColumn, descriptionColumn, mandatoryColumn);
     }

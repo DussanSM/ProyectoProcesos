@@ -91,14 +91,20 @@ public class TaskInterface implements Initializable {
         }
         taskTable.setItems(itemList);
 
+        Util<Task> t = new Util<>();
+
         TableColumn<Task, String> descriptionColumn = new TableColumn<>("Descripcion");
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        t.columnSettings(descriptionColumn, 403);
 
         TableColumn<Task, String> mandatoryColumn = new TableColumn<>("Obligatorio");
         mandatoryColumn.setCellValueFactory(new PropertyValueFactory<>("mandatory"));
+        t.columnSettings(mandatoryColumn, 100);
 
-        TableColumn<Task, Double> timeColumn = new TableColumn<>("Tiempo");
+        TableColumn<Task, String> timeColumn = new TableColumn<>("Tiempo");
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("Time"));
+        t.columnSettings(timeColumn, 95);
+
         this.taskTable.getColumns().setAll(descriptionColumn, mandatoryColumn, timeColumn);
     }
 
