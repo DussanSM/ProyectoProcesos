@@ -174,7 +174,7 @@ public class ActivityInterface implements Initializable {
 
     @FXML
     void deleteActivity(ActionEvent ignoredEvent) {
-        this.process.getActivities().removeNode(a);
+        this.process.removeActivity(a);
         this.uploadTable();
         clean();
     }

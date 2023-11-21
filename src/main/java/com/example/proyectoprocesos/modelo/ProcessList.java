@@ -86,8 +86,15 @@ public class ProcessList implements Iterable<Process>{
 
             }
         }
+
+        this.refreshTime();
     }
 
+    public void refreshTime(){
+        for (Process p: this.processList) {
+            p.calculateMinTime();
+        }
+    }
     @Override
     public Iterator<Process> iterator() {
         return processList.iterator();

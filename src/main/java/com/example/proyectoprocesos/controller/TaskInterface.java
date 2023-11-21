@@ -111,6 +111,7 @@ public class TaskInterface implements Initializable {
         this.activity.pushTask(new Task(descriptionTask.getText(), mandatoryTask.isSelected(), Double.parseDouble(time)));
         this.uploadTable();
         clean();
+        this.processList.refreshTime();
     }
 
     @FXML
@@ -124,6 +125,7 @@ public class TaskInterface implements Initializable {
         this.task.setTime(Double.parseDouble(time));
         this.uploadTable();
         clean();
+        this.processList.refreshTime();
     }
 
     @FXML
@@ -137,6 +139,7 @@ public class TaskInterface implements Initializable {
         this.activity.setTasks(taskQueue);
         this.uploadTable();
         clean();
+        this.processList.refreshTime();
     }
 
     public void deleteTaskQueue(Queue<Task> taskQueue){

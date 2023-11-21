@@ -1,6 +1,5 @@
 package com.example.proyectoprocesos.controller;
 
-import com.example.proyectoprocesos.modelo.Activity;
 import com.example.proyectoprocesos.modelo.ProcessList;
 import com.example.proyectoprocesos.modelo.Process;
 import javafx.collections.FXCollections;
@@ -26,11 +25,6 @@ import java.util.ResourceBundle;
 
 public class ProcessInterface implements Initializable {
     private Stage stage;
-    @FXML
-    private Button add;
-
-    @FXML
-    private Button back;
 
     @FXML
     private Button delete;
@@ -77,7 +71,7 @@ public class ProcessInterface implements Initializable {
     }
 
     @FXML
-    void addProcess(ActionEvent event) {
+    void addProcess(ActionEvent ignoredEvent) {
         if(!validation()){
             return;
         }
@@ -88,7 +82,7 @@ public class ProcessInterface implements Initializable {
     }
 
     @FXML
-    void backMenu(ActionEvent event) throws IOException {
+    void backMenu(ActionEvent ignoredEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/proyectoprocesos/menu.fxml"));
         Parent root = loader.load();
         MainScreen controller = loader.getController();
@@ -101,14 +95,14 @@ public class ProcessInterface implements Initializable {
     }
 
     @FXML
-    void deleteProcess(ActionEvent event) {
+    void deleteProcess(ActionEvent ignoredEvent) {
         this.processList.removeProcess(p);
         this.uploadTable();
         clean();
     }
 
     @FXML
-    void updateProcess(ActionEvent event) {
+    void updateProcess(ActionEvent ignoredEvent) {
         if(!validation()){
             return;
         }
@@ -120,25 +114,19 @@ public class ProcessInterface implements Initializable {
 
 
     private final ListChangeListener<Process> selectTableProcess =
-            new ListChangeListener<Process>() {
-                @Override
-                public void onChanged(ListChangeListener.Change<? extends Process> c) {
-                    selectProcess();
-                }
-            };
-    public Process getTablaPersonasSeleccionada() {
+            c -> selectProcess();
+    public Process getTableProcessSelect() {
         if (tableProcess != null) {
             List<Process> tabla = tableProcess.getSelectionModel().getSelectedItems();
             if (tabla.size() == 1) {
-                final Process process = tabla.get(0);
-                return process;
+                return tabla.get(0);
             }
         }
         return null;
     }
 
     private void selectProcess() {
-        p = getTablaPersonasSeleccionada();
+        p = getTableProcessSelect();
 
         if (p != null) {
             positionProcess = itemList.indexOf(p);
@@ -164,7 +152,7 @@ public class ProcessInterface implements Initializable {
     }
 
     @FXML
-    void addTime(ActionEvent actionEvent){
+    void addTime(ActionEvent ignoredActionEvent){
         openPopup();
     }
     private void openPopup() {
@@ -172,28 +160,30 @@ public class ProcessInterface implements Initializable {
         popupStage.initModality(Modality.APPLICATION_MODAL);
         popupStage.setTitle("Popup Window");
 
-        String time = p.calculateMinTime()+"";
+        String time = p.getMinTime()+"";
 
-        //No se calcula con el minimo sino con la variable tiempo
-        Label label = new Label(time);
+        Label label = new Label("El tiempo minimo es: " + time);
 
         ComboBox<String> comboBoxTime = new ComboBox<>();
         ObservableList<String> comboNumber = FXCollections.observableArrayList();
-        for (double i = Double.parseDouble(time); i <=  900; i++){
+        for (double i = p.calculateMinTime(); i <=  900; i++){
             comboNumber.add(i+"");
         }
         comboBoxTime.setItems(comboNumber);
+        comboBoxTime.getSelectionModel().selectFirst();
 
-//        addButton.sxetOnAction(e ->  {
-//            comboBoxPopup.getValue().pushTask(task);
-//            popupStage.close();
-//        });
-//
+        Button aceptButton = new Button("Aceptar");
+        aceptButton.setOnAction(e ->  {
+            p.setManualTime(true);
+            p.setMinTime(Double.parseDouble(comboBoxTime.getValue()));
+            popupStage.close();
+        });
+
         Button closeButton = new Button("Cerar Popup");
         closeButton.setOnAction(e -> popupStage.close());
 
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(label, comboBoxTime, closeButton);
+        layout.getChildren().addAll(label, comboBoxTime, aceptButton, closeButton);
         layout.setPadding(new javafx.geometry.Insets(10));
 
         Scene scene = new Scene(layout, 200, 150);

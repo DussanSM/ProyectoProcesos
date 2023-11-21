@@ -12,11 +12,14 @@ public class Process {
     private String name;
     private ProcessList processList;
     private double minTime;
+    private boolean manualTime;
 
     public Process(String id, String name) {
         this.processList = ProcessList.getInstance();
         this.id = id;
         this.name = name;
+        this.minTime = 1;
+        this.manualTime = false;
         activities = new DoubleList<>();
     }
 
@@ -27,6 +30,7 @@ public class Process {
 
         activity = referenceActivity(activity);
         activities.addEnd(activity);
+        this.calculateMinTime();
     }
 
     public void addActivityRecent(Activity activity){
@@ -42,6 +46,7 @@ public class Process {
         }
 
         activities.addNode(activity, activities.getLastNodeRegister());
+        this.calculateMinTime();
     }
 
     public void addActivity(Activity activity, String activityName){
@@ -70,6 +75,8 @@ public class Process {
         if(index != -1){
             activities.add(activity, index);
         }
+
+        this.calculateMinTime();
     }
 
     public boolean onlyName(String name){
@@ -96,12 +103,29 @@ public class Process {
         return true;
     }
 
+    public void removeActivity(Activity activity){
+        this.activities.removeNode(activity);
+        this.calculateMinTime();
+    }
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void setManualTime(boolean manualTime) {
+        this.manualTime = manualTime;
+    }
+
+    public double getMinTime() {
+        return minTime;
+    }
+
+    public void setMinTime(double minTime) {
+        this.minTime = minTime;
     }
 
     public String getName() {
@@ -136,6 +160,15 @@ public class Process {
             for (Task t: tasks){
                 sumTime+=t.getTime();
             }
+        }
+
+        if (manualTime) {
+            if(this.minTime < sumTime){
+                this.minTime = sumTime;
+                this.manualTime = false;
+            }
+        }else {
+            this.minTime = sumTime;
         }
         return sumTime;
     }
